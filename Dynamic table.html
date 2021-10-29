@@ -1,0 +1,68 @@
+<!DOCTYPE HTML> 
+<html> 
+ 
+<head>
+    <title>This is the dynamic table. </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+ 
+<body style = "text-align:center;" id = "body"> 
+    <table align = "center" id="table" border="1"></table>
+
+    <script>
+        var list = [
+            { "First name": "Rhys",     "Last name": "Smith",       "Age" : "23" },
+            { "First name": "Brad",     "Last name": "Gallavin",    "Age" : "22" },
+            { "First name": "James",    "Last name": "Ducker",      "Age" : "37" },
+            { "Address": "1 street"}
+        ];
+             
+        function constructTable(tableID) {
+             
+            // Getting the all column names
+            var cols = Headers(list, tableID); 
+            console.log(cols)
+  
+            // Traversing the JSON data
+            for (var i = 0; i < list.length; i++) {
+                var row = $('<tr/>');  
+                for (var colIndex = 0; colIndex < cols.length; colIndex++)
+                {
+                    var val = list[i][cols[colIndex]];
+                     
+                    // If there is any key, which is matching
+                    // with the column name
+                    if (val == null) val = ""; 
+                    row.append($('<td/>').html(val));
+                }
+                 
+                // Adding each row to the table
+                $(tableID).append(row);
+            }
+        }
+         
+        function Headers(list, tableID) {
+            var columns = [];
+            var header = $('<tr/>');
+            console.log(header);
+            for (var i = 0; i < list.length; i++) {
+                var row = list[i];
+                
+                for (var headerName in row) {
+                    if ($.inArray(headerName, columns) == -1) {
+                        columns.push(headerName);
+                        
+                        // Creating the header
+                        header.append($('<th/>').html(headerName));
+                    }
+                }
+            }
+            // Appending the header to the table
+            $(tableID).append(header);
+            return columns;
+        }      
+        constructTable('#table');
+        console.log('hello there');
+    </script>
+</body> 
+</html>
